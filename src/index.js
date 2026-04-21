@@ -1,5 +1,5 @@
 import { existsSync, readFileSync, promises as fs } from "fs"
-import core from "@actions/core"
+import * as core from "@actions/core"
 import { getOctokit, context } from "@actions/github"
 import axios from "axios"
 import path from "path"
@@ -63,8 +63,11 @@ async function main() {
 	await validateSubscription()
 	const token = core.getInput("github-token")
 	const githubClient = getOctokit(token)
-	const workingDir = core.getInput('working-directory') || './';	
-	const lcovFile = path.join(workingDir, core.getInput("lcov-file") || "./coverage/lcov.info")
+	const workingDir = core.getInput("working-directory") || "./"
+	const lcovFile = path.join(
+		workingDir,
+		core.getInput("lcov-file") || "./coverage/lcov.info",
+	)
 	const baseFile = core.getInput("lcov-base")
 	const shouldFilterChangedFiles =
 		core.getInput("filter-changed-files").toLowerCase() === "true"
@@ -90,7 +93,10 @@ async function main() {
 		workingDir,
 	}
 
-	if (context.eventName === "pull_request" || context.eventName === "pull_request_target") {
+	if (
+		context.eventName === "pull_request" ||
+		context.eventName === "pull_request_target"
+	) {
 		options.commit = context.payload.pull_request.head.sha
 		options.baseCommit = context.payload.pull_request.base.sha
 		options.head = context.payload.pull_request.head.ref
@@ -116,7 +122,10 @@ async function main() {
 		await deleteOldComments(githubClient, options, context)
 	}
 
-	if (context.eventName === "pull_request" || context.eventName === "pull_request_target") {
+	if (
+		context.eventName === "pull_request" ||
+		context.eventName === "pull_request_target"
+	) {
 		await githubClient.rest.issues.createComment({
 			repo: context.repo.repo,
 			owner: context.repo.owner,
