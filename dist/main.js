@@ -54491,11 +54491,17 @@ function createHref(options, file) {
 	const relative = file.file.replace(options.prefix, "");
 	const parts = relative.split("/");
 	const filename = parts[parts.length - 1];
-	const url = path.join(options.repository, 'blob', options.commit, options.workingDir || './', relative);
+	const url = path.join(
+		options.repository,
+		"blob",
+		options.commit,
+		options.workingDir || "./",
+		relative,
+	);
 	return {
 		href: `https://github.com/${url}`,
-		filename
-	};
+		filename,
+	}
 }
 
 // Tabulate the lcov data in a HTML table.
@@ -54559,7 +54565,7 @@ function getStatement(file) {
 	const { branches, functions, lines } = file;
 
 	return [branches, functions, lines].reduce(
-		function (acc, curr) {
+		function(acc, curr) {
 			if (!curr) {
 				return acc
 			}
@@ -54585,7 +54591,7 @@ function toRow(file, indent, options) {
 }
 
 function filename(file, indent, options) {
-	const {href, filename} = createHref(options, file);
+	const { href, filename } = createHref(options, file);
 	const space = indent ? "&nbsp; &nbsp;" : "";
 	return fragment(space, a({ href }, filename))
 }
@@ -54615,7 +54621,7 @@ function uncovered(file, options) {
 	const all = ranges([...branches, ...lines]);
 
 	return all
-		.map(function (range) {
+		.map(function(range) {
 			const fragment =
 				range.start === range.end
 					? `L${range.start}`
@@ -54636,7 +54642,7 @@ function ranges(linenos) {
 
 	let last = null;
 
-	linenos.sort().forEach(function (lineno) {
+	linenos.sort().forEach(function(lineno) {
 		if (last === null) {
 			last = { start: lineno, end: lineno };
 			return
@@ -54840,8 +54846,11 @@ async function main() {
 	await validateSubscription();
 	const token = getInput("github-token");
 	const githubClient = getOctokit(token);
-	const workingDir = getInput('working-directory') || './';	
-	const lcovFile = path.join(workingDir, getInput("lcov-file") || "./coverage/lcov.info");
+	const workingDir = getInput("working-directory") || "./";
+	const lcovFile = path.join(
+		workingDir,
+		getInput("lcov-file") || "./coverage/lcov.info",
+	);
 	const baseFile = getInput("lcov-base");
 	const shouldFilterChangedFiles =
 		getInput("filter-changed-files").toLowerCase() === "true";
@@ -54867,7 +54876,10 @@ async function main() {
 		workingDir,
 	};
 
-	if (context.eventName === "pull_request" || context.eventName === "pull_request_target") {
+	if (
+		context.eventName === "pull_request" ||
+		context.eventName === "pull_request_target"
+	) {
 		options.commit = context.payload.pull_request.head.sha;
 		options.baseCommit = context.payload.pull_request.base.sha;
 		options.head = context.payload.pull_request.head.ref;
@@ -54893,7 +54905,10 @@ async function main() {
 		await deleteOldComments(githubClient, options, context);
 	}
 
-	if (context.eventName === "pull_request" || context.eventName === "pull_request_target") {
+	if (
+		context.eventName === "pull_request" ||
+		context.eventName === "pull_request_target"
+	) {
 		await githubClient.rest.issues.createComment({
 			repo: context.repo.repo,
 			owner: context.repo.owner,
