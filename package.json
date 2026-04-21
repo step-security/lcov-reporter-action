@@ -1,0 +1,64 @@
+{
+	"name": "lcov-reporter-action",
+	"version": "0.4.0",
+	"description": "Comments a pull request with the lcov code coverage",
+	"license": "MIT",
+	"author": "step-security",
+	"repository": "https://github.com/step-security/lcov-reporter-action",
+	"keywords": [
+		"actions",
+		"pull-request",
+		"comment",
+		"message"
+	],
+	"main": "index.js",
+	"scripts": {
+		"build": "rollup -c",
+		"test": "jest --passWithNoTests --coverage",
+		"local": "babel-node src/cli",
+		"format": "prettier --write src/*.js src/**/*.js"
+	},
+	"dependencies": {
+		"@actions/core": "^1.2.0",
+		"@actions/github": "^5.1.1",
+		"axios": "1.15.0",
+		"lcov-parse": "^1.0.0"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.8.6",
+		"@babel/node": "^7.8.4",
+		"@babel/preset-env": "^7.12.11",
+		"@rollup/plugin-commonjs": "^28.0.0",
+		"@rollup/plugin-json": "^6.1.0",
+		"@rollup/plugin-node-resolve": "^16.0.0",
+		"babel-jest": "^25.1.0",
+		"core-js": "3",
+		"jest": "^25.1.0",
+		"prettier": "^1.19.1",
+		"regenerator-runtime": "^0.13.3",
+		"rollup": "^4.28.0",
+		"rollup-plugin-node-externals": "^7.0.0"
+	},
+	"babel": {
+		"presets": [
+			[
+				"@babel/preset-env",
+				{
+					"useBuiltIns": "usage",
+					"corejs": 3
+				}
+			]
+		]
+	},
+	"jest": {
+		"testMatch": [
+			"<rootDir>/src/*_test.js",
+			"<rootDir>/src/**/*_test.js"
+		]
+	},
+	"prettier": {
+		"semi": false,
+		"useTabs": true,
+		"trailingComma": "all"
+	}
+}
