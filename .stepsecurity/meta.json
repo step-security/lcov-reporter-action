@@ -1,0 +1,18 @@
+{
+   "schema_version": "1",
+   "onboarding_type": "copied",
+   "archived": false,
+   "maintained_action_name": "step-security/lcov-reporter-action",
+   "upstream_full_repo_name": "romeovs/lcov-reporter-action",
+   "action_type": "node",
+   "last_release": {
+     "tag_name": "v0.4.0",
+     "created_at": "2026-04-21T08:46:05Z",
+     "published_at": "2026-04-21T16:45:00Z"
+   },
+   "sync": {
+     "ignore_presets": [
+       "defaults_v1"
+     ]
+   }
+ }
